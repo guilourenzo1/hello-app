@@ -61,4 +61,4 @@ jobs:
         PR_BODY="Atualização automática da imagem para ${{ env.IMAGE_NAME }}:${{ github.sha }}"
         curl -s -X POST -H "Authorization: token ${{ secrets.MANIFESTS_REPO_API_TOKEN }}" \
           -d "{\"title\":\"${PR_TITLE}\",\"head\":\"${BRANCH}\",\"base\":\"main\",\"body\":\"${PR_BODY}\"}" \
-          https://api.github.com/repos/SEU_USUARIO/hello-manifests/pulls
+          https://api.github.com/repos/guilourenzo1/hello-manifests/pulls
