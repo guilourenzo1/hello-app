@@ -2,10 +2,10 @@ name: CI/CD - Build, Push e Atualiza Manifests
 
 on:
   push:
-    branches: [ "main" ] 
+    branches: [ "main" ]
 
 env:
-  IMAGE_NAME: guilherme420/hello-app  
+  IMAGE_NAME: guilherme420/hello-app
 
 jobs:
   build-and-push:
@@ -15,7 +15,7 @@ jobs:
     - name: Checkout do código
       uses: actions/checkout@v4
 
-    - name:  Configurar Buildx (para build multi-plataforma)
+    - name: Configurar Buildx
       uses: docker/setup-buildx-action@v2
 
     - name: Login no Docker Hub
@@ -24,42 +24,33 @@ jobs:
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
 
-    - name: Build e Push da imagem para o Docker Hub
+    - name: Build e Push da imagem
       id: build
       uses: docker/build-push-action@v4
       with:
         push: true
         tags: ${{ env.IMAGE_NAME }}:${{ github.sha }}
 
-    - name: Configurar chave SSH para acessar repositório de manifests
+    - name: Configurar chave SSH
       run: |
         mkdir -p ~/.ssh
         echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
         chmod 600 ~/.ssh/id_rsa
         ssh-keyscan github.com >> ~/.ssh/known_hosts
 
-    - name: Clonar o repositório de manifests
+    - name: Clonar repositório de manifests
       run: |
-        git clone ${{ secrets.MANIFESTS_REPO }} manifests
+        git clone git@github.com:guilourenz01/hello-manifests.git manifests
 
-    - name: Atualizar o deployment.yaml com a nova tag da imagem
+    - name: Atualizar deployment.yaml com nova tag
       run: |
         cd manifests
         NEW_IMAGE="${{ env.IMAGE_NAME }}:${{ github.sha }}"
+        echo "Atualizando imagem para: ${NEW_IMAGE}"
         sed -i "s|image: .*|image: ${NEW_IMAGE}|g" deployment.yaml
         git config user.email "actions@github.com"
         git config user.name "github-actions"
-        git checkout -b ci/update-image-${{ github.run_id }}
         git add deployment.yaml
-        git commit -m "ci: atualiza imagem para ${NEW_IMAGE}"
-        git push origin HEAD
-
-    - name: Commit e Push direto no repositório de manifests
-      run: |
-        cd manifests
-        git config user.name "github-actions[bot]"
-        git config user.email "github-actions[bot]@users.noreply.github.com"
-        git add .
-        git commit -m "ci: update image ${{ github.sha }}" || echo "Nenhuma mudança para commitar"
+        git commit -m "ci: atualiza imagem para ${NEW_IMAGE}" || echo "Nenhuma mudança para commitar"
         git pull --rebase origin main || true
         git push origin main
