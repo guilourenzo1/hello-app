@@ -40,7 +40,7 @@ jobs:
 
     - name: Clonar repositório de manifests
       run: |
-        git clone git@github.com:guilourenz01/hello-manifests.git manifests
+        git clone git@github.com:guilourenzo1/hello-manifests.git manifests
 
     - name: Atualizar deployment.yaml com nova tag
       run: |
