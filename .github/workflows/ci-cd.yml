@@ -54,11 +54,12 @@ jobs:
         git commit -m "ci: atualiza imagem para ${NEW_IMAGE}"
         git push origin HEAD
 
-    - name: Criar Pull Request para o repositório de manifests
+    - name: Commit e Push direto no repositório de manifests
       run: |
-        BRANCH="ci/update-image-${{ github.run_id }}"
-        PR_TITLE="ci: update image ${{ github.sha }}"
-        PR_BODY="Atualização automática da imagem para ${{ env.IMAGE_NAME }}:${{ github.sha }}"
-        curl -s -X POST -H "Authorization: token ${{ secrets.MANIFESTS_REPO_API_TOKEN }}" \
-          -d "{\"title\":\"${PR_TITLE}\",\"head\":\"${BRANCH}\",\"base\":\"main\",\"body\":\"${PR_BODY}\"}" \
-          https://api.github.com/repos/guilourenzo1/hello-manifests/pulls
+        cd manifests
+        git config user.name "github-actions[bot]"
+        git config user.email "github-actions[bot]@users.noreply.github.com"
+        git add .
+        git commit -m "ci: update image ${{ github.sha }}" || echo "Nenhuma mudança para commitar"
+        git pull --rebase origin main || true
+        git push origin main
