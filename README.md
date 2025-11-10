@@ -1,4 +1,4 @@
-# Projeto - CI/CD - GitHub Actions
+# Projeto - CI/CD - GitHub Actions - Aplicação
 
 Este projeto demonstra a implementação completa de um pipeline **CI/CD automatizado** utilizando **Docker**, **GitHub Actions**, **Kubernetes** e **ArgoCD**.
 O pipeline foi desenvolvido para a aplicação `hello-app` (em **FastAPI**) e um repositório de manifests Kubernetes (`hello-manifests`), possibilitando **build**, **deploy** e **atualizações contínuas** sem intervenção manual.
@@ -7,7 +7,7 @@ O pipeline foi desenvolvido para a aplicação `hello-app` (em **FastAPI**) e um
 
 ## Etapas do Projeto
 
-### Etapa 1 - Criar o repositório `hello-app`
+### Etapa 1 - Criação do repositório `hello-app`
 _- Criar um repositório **público** para rodar a aplicação `hello-app`_   
 _Criar uma pasta `hello-app` para abrigar o código-fonte da aplicação FastAPI e o pipeline CI/CD responsável por:_    
 _- Construir a imagem Docker;_  
@@ -113,7 +113,7 @@ jobs:
 
 ---
 
-### Etapa 2 - Criar repositório `hello-manifests`
+### Etapa 2 - Criação do repositório `hello-manifests`
 _Quando o `hello-app` envia uma nova versão de imagem, o `deployment.yaml` é atualizado automaticamente com a nova tag.  
 O ArgoCD detecta essa mudança e aplica o novo deploy._  
 - Criar um repositório **público** que contém os manifests *Kubernetes* monitorados pelo *ArgoCD*  
