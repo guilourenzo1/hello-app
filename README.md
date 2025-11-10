@@ -275,6 +275,8 @@ kubectl -n argocd port-forward svc/argocd-server 8080:443
 ```
 2. Acesse no navegador
 https://localhost:8080
+![c5b86885-8e84-4cea-90f5-61c855d303b6](https://github.com/user-attachments/assets/7bb4a863-a869-4689-97c9-b0d4e19163e4)
+
 3.Login:
 - Usuário: admin
 - Senha:
@@ -287,9 +289,14 @@ Vá em App Details → Sync Policy
   - Auto-Sync
   - Prune Resources
   - Self Heal
+![c506b084-3e4e-4172-bda0-83b6a9ce5588](https://github.com/user-attachments/assets/e34379b8-f6fa-441c-a912-11971cfd9043)
+
 5. Acesse no navegador
 https://localhost:8081
 - Pronto, você verá sua aplicação funcionando!
+
+![464064ac-fe07-4344-b7c9-56ac933570fd](https://github.com/user-attachments/assets/79cb9605-8daa-4a9f-8b9e-3cb68bd5ce80)
+
 
 ---
 
